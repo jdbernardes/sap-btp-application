@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "sap-btp-application"
+version = "0.1.0"
+description = "SAP project to deploy a simple API server connecting to SFSF and displaying the data into a frontend"
+authors = ["Júlio Bernardes <juliocd.bernardes@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
