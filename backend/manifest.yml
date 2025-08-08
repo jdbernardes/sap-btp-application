@@ -1,0 +1,13 @@
+applications:
+  - name: sap-backend
+    memory: 512M
+    disk_quota: 1G
+    instances: 1
+    random-route: true
+    buildpacks:
+      - python_buildpack
+    env:
+      PYTHONUNBUFFERED: "1"
+      PIP_NO_CACHE_DIR: "1"
+    health-check-type: http
+    health-check-http-endpoint: /health
