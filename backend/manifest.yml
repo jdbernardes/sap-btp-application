@@ -1,5 +1,5 @@
 applications:
-  - name: sap-backend
+  - name: fastapi-server
     memory: 512M
     disk_quota: 1G
     instances: 1
@@ -7,7 +7,6 @@ applications:
     buildpacks:
       - python_buildpack
     env:
-      PYTHONUNBUFFERED: "1"
-      PIP_NO_CACHE_DIR: "1"
+      WEB_CONCURRENCY: "2"
     health-check-type: http
     health-check-http-endpoint: /health

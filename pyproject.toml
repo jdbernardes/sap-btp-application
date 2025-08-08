@@ -8,8 +8,30 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 python-dotenv = "^1.1.1"
+fastapi = {extras = ["standard"], version = "^0.116.1"}
+taskipy = "^1.14.1"
+ruff = "^0.12.8"
+pytest-cov = "^6.2.1"
+pydantic = "^2.11.7"
 
+
+[tool.poetry.group.prod.dependencies]
+pydantic = "^2.11.7"
+fastapi = {extras = ["standard"], version = "^0.116.1"}
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.taskipy.tasks]
+lint = 'ruff check .&& ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
+run = 'fastapi dev backend/main.py'
+pre_test = 'task lint'
+test = 'pytest -s --cov=backend -vv'
+post_test = 'coverage html'
+
+
+
+
