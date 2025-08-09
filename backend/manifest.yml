@@ -8,5 +8,3 @@ applications:
       - python_buildpack
     env:
       WEB_CONCURRENCY: "2"
-    health-check-type: http
-    health-check-http-endpoint: /health
