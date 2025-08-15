@@ -8,17 +8,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "3.12.10"
 python-dotenv = "^1.1.1"
-fastapi = {extras = ["standard"], version = "^0.116.1"}
 taskipy = "^1.14.1"
 ruff = "^0.12.8"
 pytest-cov = "^6.2.1"
 pydantic = "^2.11.7"
 requests = "^2.32.4"
+fastapi = {extras = ["standard"], version = "^0.116.1"}
 
 
 [tool.poetry.group.prod.dependencies]
 pydantic = "^2.11.7"
-fastapi = {extras = ["standard"], version = "^0.116.1"}
 
 [build-system]
 requires = ["poetry-core"]
