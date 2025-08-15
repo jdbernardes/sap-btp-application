@@ -1,6 +1,6 @@
 from http import HTTPStatus
 from fastapi import APIRouter
-from .schemas import Message
+from ..app.schemas import Message
 
 router = APIRouter(prefix='/root', tags=['Root'])
 
