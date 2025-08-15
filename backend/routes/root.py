@@ -1,6 +1,9 @@
 from http import HTTPStatus
 from fastapi import APIRouter
-from ..app.schemas import Message
+try:
+    from backend.app.schemas import Message
+except ModuleNotFoundError:
+    from app.schemas import Message
 
 router = APIRouter(prefix='/root', tags=['Root'])
 

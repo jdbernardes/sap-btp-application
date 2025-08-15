@@ -1,8 +1,8 @@
 import os
 
 from fastapi import FastAPI
-from backend.routes import root as root_mod
-from backend.routes import users as users_mod
+from routes import root as root_mod
+from routes import users as users_mod
 
 ## Normaly this will not be needed but was a solution for this project so I won't need to change all folder structure
 #try:

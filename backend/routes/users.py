@@ -1,6 +1,8 @@
 from fastapi import APIRouter
-from backend.services.sfsf_api import get_random_user
-
+try:
+    from .services.sfsf_api import get_random_user
+except ModuleNotFoundError:
+    from services.sfsf_api import get_random_user
 router = APIRouter(prefix = '/users', tags = ['Users'])
 
 

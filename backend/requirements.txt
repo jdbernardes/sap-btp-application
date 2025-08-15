@@ -41,3 +41,4 @@ watchfiles
 websockets
 uvicorn[standard]
 gunicorn
+requests

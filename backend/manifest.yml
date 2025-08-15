@@ -8,3 +8,6 @@ applications:
       - python_buildpack
     env:
       WEB_CONCURRENCY: "2"
+    services:
+      - xsuaa-julio
+      - destination-julio
