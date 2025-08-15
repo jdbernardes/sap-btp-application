@@ -1,18 +1,38 @@
+import os
+import json
 import requests
-from .xsuaa_token import get_xsuaa_token
 
 
-def get_destination(destination_name = 'SFSF_TEST'):
-    token = get_xsuaa_token()
+def _get_destination_service_token_and_uri():
+    # Use the DESTINATION binding credentials, not app xsuaa
+    vcap = json.loads(os.getenv("VCAP_SERVICES"))
+    creds = vcap["destination"][0]["credentials"]
 
-    response = requests.get(
-        f"https://destination-configuration.cfapps.eu10.hana.ondemand.com/destination-configuration/v1/destinations/{destination_name}",
-        headers={
-            'Authorization': f'Bearer {token}'
-        }
+    token_resp = requests.post(
+        creds["url"] + "/oauth/token",              # same auth domain
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        data={
+            "grant_type": "client_credentials",
+            "client_id": creds["clientid"],
+            "client_secret": creds["clientsecret"],
+        },
+        timeout=30,
     )
+    if not token_resp.ok:
+        raise Exception("Failed to get Destination token", token_resp.text)
 
-    if not response.ok:
-        raise Exception('Failed to fetch destination', response.text)
-    
-    return response.json()
+    access_token = token_resp.json()["access_token"]
+    # Destination Configuration API base
+    dest_api_base = creds["uri"]  # e.g. https://destination-configuration.cfapps.us10.hana.ondemand.com
+    return access_token, dest_api_base
+
+def get_destination(destination_name: str = "SFSF_TEST") -> dict:
+    token, dest_api_base = _get_destination_service_token_and_uri()
+    resp = requests.get(
+        f"{dest_api_base}/destination-configuration/v1/destinations/{destination_name}",
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=30,
+    )
+    if not resp.ok:
+        raise Exception("Failed to fetch destination", resp.text)
+    return resp.json()
