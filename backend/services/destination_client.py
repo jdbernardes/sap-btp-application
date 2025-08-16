@@ -1,3 +1,4 @@
+import base64
 import os
 import json
 import requests
@@ -36,3 +37,28 @@ def get_destination(destination_name: str = "SFSF_TEST") -> dict:
     if not resp.ok:
         raise Exception("Failed to fetch destination", resp.text)
     return resp.json()
+
+def create_autorization(destination_name: str = "SFSF_TEST"):
+    dest = get_destination(destination_name)
+    cfg = dest["destinationConfiguration"]
+
+    base_url = cfg["URL"]  # e.g. https://<sfsf>/odata/v2
+    auth_type = cfg.get("Authentication")
+    auth = ""
+
+    if auth_type == "BasicAuthentication":
+        user = cfg.get("User")
+        pwd  = cfg.get("Password")
+        if not user or not pwd:
+            raise Exception("Destination is BasicAuthentication but User/Password are missing.")
+        token = base64.b64encode(f"{user}:{pwd}".encode()).decode()
+        auth = f"Basic {token}"
+    else:
+        # For OAuth destinations, you might use dest["authTokens"][0]["value"]
+        # but not for BasicAuthentication.
+        pass
+
+    return{
+        'base_url' : base_url,
+        'authorization': auth
+    }
